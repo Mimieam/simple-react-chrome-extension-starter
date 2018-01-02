@@ -43,3 +43,9 @@ new CopyWebpackPlugin([
     }
   } 
   ```
+
+  TODO:
+  config hot reload
+    - add write-file-webpack-plugin -> write to a dev/temp folder
+    - enable reload of chrome app extension
+    - 

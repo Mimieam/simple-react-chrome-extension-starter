@@ -12,6 +12,9 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
+const WriteFilePlugin = require('write-file-webpack-plugin');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -29,13 +32,14 @@ const env = getClientEnvironment(publicUrl);
 module.exports = {
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
+  devtool: 'eval',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: {
     // We ship a few polyfills by default:
-   app:[require.resolve('./polyfills'),
+   popup:[require.resolve('./polyfills'),
     // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
     // When you save a file, the client will either apply hot updates (in case
@@ -53,11 +57,15 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
    ],
-    background:  './src/background.js'
+   // background: [require.resolve('./polyfills'), paths.appBackgroundIndexJs],
+   background: [require.resolve('./polyfills'), require.resolve('react-dev-utils/webpackHotDevClient'), paths.appBackgroundIndexJs],
+   // contextMenu: paths.appContextBackgroundIndexJs,
+   options: [require.resolve('./polyfills'), require.resolve('react-dev-utils/webpackHotDevClient'), paths.appOptionsIndexJs]
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
+    path: paths.appDev,
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
@@ -224,7 +232,23 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+      chunks: ['popup'],
     }),
+
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+      filename: 'popup.html',
+      chunks: ['popup'],
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appOptionsHtml,
+      filename: 'options.html',
+      chunks: ['options'],
+    }),
+
+    
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example:
@@ -232,6 +256,7 @@ module.exports = {
     new webpack.DefinePlugin(env.stringified),
     // This is necessary to emit hot updates (currently CSS only):
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
@@ -248,8 +273,20 @@ module.exports = {
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
+    // new ChromeExtensionReloader(),
+
+    new WriteFilePlugin({
+      useHashIndex: false,
+    }),
+    new LiveReloadPlugin({
+      appendScriptTag: true,
+
+    }),
     new CopyWebpackPlugin([
-      { from: 'public/static' }
+      { from: 'public/manifest.json' },
+      { from: 'public/chromereload.js' },
+      { from: 'public/static', to: 'static/' },
+      { from: 'public/_locales', to: '_locales/' }
     ]),
   ],
   // Some libraries import Node modules but don't use them in the browser.

@@ -12,6 +12,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -251,7 +252,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
-      filename: "popup.html",
+      filename: 'popup.html',
       chunks: ['popup'],
       minify: {
         removeComments: true,
@@ -269,7 +270,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appOptionsHtml,
-      filename: "options.html",
+      filename: 'options.html',
       chunks: ['options'],
       minify: {
         removeComments: true,
@@ -359,6 +360,12 @@ module.exports = {
     // new CopyWebpackPlugin([
     //   { from: 'public/static' }
     // ]),
+    new LiveReloadPlugin({
+      appendScriptTag: true,
+
+    }),
+
+
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

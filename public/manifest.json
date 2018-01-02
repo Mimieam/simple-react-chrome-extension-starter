@@ -10,6 +10,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
+      "chromereload.js",
       "static/js/background.bundle.js"
     ]
   },
@@ -41,6 +42,7 @@
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
-    "static/media/icon-48.png"
+    "static/media/icon-48.png",
+    "chrome-extension://akcfbbilknbcgjkkbcclehfkiaepnojp:35729/livereload.js"
   ]
 }

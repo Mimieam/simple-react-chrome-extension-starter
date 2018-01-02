@@ -1,3 +1,5 @@
+
+
 chrome.storage.local.get('todos', (obj) => {
   let todos = obj.todos;
   if (todos) {
@@ -6,10 +8,11 @@ chrome.storage.local.get('todos', (obj) => {
     if (len > 0) {
       chrome.browserAction.setBadgeText({ text: len.toString() });
     }
-  } else {
-    // Initial
+  } else {  
+    // Initial 
+    console.log('Background.js loaded')
     chrome.browserAction.setBadgeText({ text: '1' });
-  }
+  } 
 });
 
 
@@ -26,12 +29,16 @@ function closeIfExist() {
 
 function popWindow(type) {
   closeIfExist();
+
+  let _w = window.outerWidth / 2 - window.outerWidth /5
+  let _h = window.outerHeight / 2 - window.outerHeight /5
+ 
   const options = {
     type: 'popup',
     left: 100,
     top: 100,
-    width: 1800,
-    height: 475,
+    width: _w, 
+    height: _h,
   };
   if (type === 'open') {
     options.url = 'popup.html';
