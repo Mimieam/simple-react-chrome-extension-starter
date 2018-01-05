@@ -1,5 +1,50 @@
 # Simple React Chrome Extension Starter
 
+
+### Why?
+  The Yeoman [generator-chrome-extension](https://github.com/yeoman/generator-chrome-extension) is simple and great! If you dont need React I definitely recommend it. 
+  
+  That being said I wanted to use React, I found many boilerplate but they were either too complex, had too many redundancies in the build processe ( building popup, background, etc.. as separate apps) or a non-intuitive file structure.
+
+
+### How ?
+  This Repo is simply an ejected [CRA](https://github.com/facebookincubator/create-react-app) with the slightly modified Yeoman generated chrome extension inside the *public* and some glue in between.
+
+```
+├── public
+│   ├── _locales
+│   │   └── en
+│   │       └── messages.json       --> Modify this
+│   ├── favicon.ico                 --> not needed but still good to have
+│   ├── manifest.json
+│   ├── manifest.prod.json
+│   ├── popup.html
+│   ├── options.html
+│   ├── background.html             --> do not modify this 
+│   └── static
+│       └── media
+│           ├── icon-128.png
+│           ├── icon-16.png
+│           ├── icon-19.png
+│           └── icon-38.png
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── background
+│   │   └── index.js
+│   ├── contentscript
+│   │   └── index.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── options
+│   │   └── index.js
+│   ├── popup
+│   │   └── index.js
+├── webpack.config.js
+```
+
 - create regular react app
 - eject app
 - install copy-webpack-plugin' from npm 
