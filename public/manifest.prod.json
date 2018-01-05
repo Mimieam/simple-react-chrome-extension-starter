@@ -9,7 +9,10 @@
   },
   "default_locale": "en",
   "background": {
-    "page": "background.html"
+    "scripts": [
+      "chromereload.js",
+      "static/js/background.bundle.js"
+    ]
   },
   "permissions": [
     "tabs",
@@ -40,8 +43,6 @@
   },
   "web_accessible_resources": [
     "static/media/icon-48.png",
-    "chrome-extension://ejbdgcnofblgepgnjilcbhaldpbihbje/sockjs-node"
-  ],
-  "content_security_policy": "default-src 'self';script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src ws://localhost:* http://localhost:3000 https://localhost:3000; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval' data:;"
-
+    "chrome-extension://akcfbbilknbcgjkkbcclehfkiaepnojp:35729/livereload.js"
+  ]
 }

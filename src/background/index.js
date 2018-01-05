@@ -10,7 +10,7 @@ chrome.storage.local.get('todos', (obj) => {
     }
   } else {  
     // Initial 
-    console.log('Background.js loaded')
+    console.log('Background.js loaded x 5')
     chrome.browserAction.setBadgeText({ text: '1' });
   } 
 });
