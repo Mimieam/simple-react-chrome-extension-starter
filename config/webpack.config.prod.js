@@ -360,10 +360,10 @@ module.exports = {
     // new CopyWebpackPlugin([
     //   { from: 'public/static' }
     // ]),
-    new LiveReloadPlugin({
-      appendScriptTag: true,
+    // new LiveReloadPlugin({
+    //   appendScriptTag: true,
 
-    }),
+    // }),
 
 
   ],

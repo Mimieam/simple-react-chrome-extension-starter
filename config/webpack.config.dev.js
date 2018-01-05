@@ -249,7 +249,8 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
       filename: 'popup.html',
-      chunks: ['popup'],
+      chunks: ['popup']
+      // favicon: 'public/favicon.ico'
     }),
     new HtmlWebpackPlugin({
       inject: true,
@@ -289,13 +290,7 @@ module.exports = {
       runtimePublicPath: `'http://localhost:3000/'`
     }),
 
-    // new WriteFilePlugin({
-    //   useHashIndex: false,
-    // }),
-    // new LiveReloadPlugin({
-    //   appendScriptTag: true,
-
-    // }),
+    // new WriteFilePlugin(),
     new CopyWebpackPlugin([
       { from: 'public/manifest.json' },
     //   { from: 'public/chromereload.js' },
