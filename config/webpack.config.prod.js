@@ -13,7 +13,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -357,9 +357,9 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    // new CopyWebpackPlugin([
-    //   { from: 'public/static' }
-    // ]),
+    new CopyWebpackPlugin([
+      { from: 'public/manifest.prod.json' ,to: `${paths.appBuild}/manifest.json` }
+    ]),
     // new LiveReloadPlugin({
     //   appendScriptTag: true,
 
