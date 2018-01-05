@@ -47,7 +47,7 @@ function popWindow(type) {
     });
   }
 }
-
+// inspired from https://github.com/jhen0409/react-chrome-extension-boilerplate
 chrome.contextMenus.create({
   id: CONTEXT_MENU_ID,
   title: 'React Chrome Extension Example',

@@ -1,3 +1,5 @@
+# Simple React Chrome Extension Starter
+
 - create regular react app
 - eject app
 - install copy-webpack-plugin' from npm 
@@ -16,7 +18,7 @@ new CopyWebpackPlugin([
     - watchout for where you put icons - static/media/
 
 - create your Yeoman Chrome extension inside /public/temp
-- 
+
 - create 2 folders : options and popup
 - clone the content of the CRA public/index.html in 2 new files in the public folders: options.html, popup.html
   - the injected bundle file for each will be manually added here - we could mess with the webpack.configs some more but for simplicity sake we wont
@@ -45,7 +47,13 @@ new CopyWebpackPlugin([
   ```
 
   TODO:
-  config hot reload
+    - config hot reload
     - add write-file-webpack-plugin -> write to a dev/temp folder
     - enable reload of chrome app extension
-    - 
+    - remove obsolete files
+    
+
+  Inspired by:
+  - https://github.com/yeoman/generator-chrome-extension 
+  - https://github.com/jhen0409/react-chrome-extension-boilerplate 
+  
