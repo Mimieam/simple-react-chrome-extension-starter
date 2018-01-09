@@ -3,9 +3,10 @@
 
 ### Why?
 
-The Yeoman [generator-chrome-extension](https://github.com/yeoman/generator-chrome-extension) is simple and great! If you dont need React I definitely recommend it.
+The Yeoman [generator-chrome-extension](https://github.com/yeoman/generator-chrome-extension) is simple and great! If you don't need React I definitely recommend it.
 
-That being said I wanted to use React, I found many boilerplate but they were either too complex( lot of extra stuff ), had too many redundancies in the build processe ( building popup, background, etc.. as separate apps) or a non-intuitive file structure.
+That being said I wanted to use React, I found many boilerplate but they were either too complex( lot of extra stuff ), had too many redundancies in the build process ( building popup, background, etc.. as separate apps) or a non-intuitive file structure. 
+So after a 3 days of frustration I decided to just make a simple boilerplate :)
 
 ### How does it works?
 
@@ -19,12 +20,15 @@ Run `Yarn build`
 #### -> Development
 
 In Dev mode, the chrome extension will be loading file from the **Webpack-dev-server** at localhost:3000 - If you see nothing displayed that would most likely be because of the server isn't running.
+Load the **public** folder as an unpacked Extension
 
 #### -> Packaging
 
   comming up :)
 
 
+#### Folder Structure
+d
 ```
 ├── build/
 ├── config/
@@ -132,3 +136,5 @@ new CopyWebpackPlugin([
   } 
   ```
 
+
+```registerServiceWorker.js``` is to be use solely during development, see CRA page

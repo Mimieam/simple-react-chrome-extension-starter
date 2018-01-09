@@ -54,7 +54,7 @@ chrome.contextMenus.create({
   contexts: ['all'],
   documentUrlPatterns: [
     'https://github.com/*'
-  ]
+  ] 
 });
 
 chrome.contextMenus.onClicked.addListener((event) => {

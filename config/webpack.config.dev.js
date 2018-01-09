@@ -69,7 +69,12 @@ module.exports = {
    // background: [require.resolve('./polyfills'), paths.appBackgroundIndexJs],
    background: [require.resolve('./polyfills'), paths.appBackgroundIndexJs],
    // contextMenu: paths.appContextBackgroundIndexJs,
-   options: [require.resolve('./polyfills'), require.resolve('react-dev-utils/webpackHotDevClient'), paths.appOptionsIndexJs]
+    options: [
+      require.resolve('./polyfills'),
+      require.resolve('webpack-dev-server/client'),
+      require.resolve('webpack/hot/dev-server'),
+      paths.appOptionsIndexJs
+    ]
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.

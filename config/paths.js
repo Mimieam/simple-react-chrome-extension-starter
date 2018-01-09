@@ -49,7 +49,7 @@ module.exports = {
   appOptionsHtml: resolveApp('public/options.html'),
   appIndexJs: resolveApp('src/index.js'),
   appPopupIndexJs: resolveApp('src/popup/index.js'),
-  appOptionsIndexJs: resolveApp('src/background/index.js'),
+  appOptionsIndexJs: resolveApp('src/options/index.js'),
   appBackgroundIndexJs: resolveApp('src/background/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
