@@ -1,4 +1,9 @@
 
+export const backgroundFctTest = (param=null) => { 
+  let _str = `The test background function was called with params "${ param }"` 
+  console.log(_str)
+  return _str
+}
 
 chrome.storage.local.get('todos', (obj) => {
   let todos = obj.todos;
