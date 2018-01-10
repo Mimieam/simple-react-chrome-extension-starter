@@ -138,3 +138,11 @@ new CopyWebpackPlugin([
 
 
 ```registerServiceWorker.js``` is to be use solely during development, see CRA page
+
+
+```/**
+ * This chrome Extension is setup with 2 entry points 
+ * the FrontEnd  in src/popup/index.js
+ * and the BackEnd in src/backgound/index.js
+ */
+ ```
