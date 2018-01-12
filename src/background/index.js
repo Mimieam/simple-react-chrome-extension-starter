@@ -1,9 +1,19 @@
+import { ChromeRPC } from '../utils'
 
-export const backgroundFctTest = (param=null) => { 
-  let _str = `The test background function was called with params "${ param }"` 
-  console.log(_str)
-  return _str
+export var backgroundApp = {
+  getRuntimeId() {
+    return chrome.runtime.id
+  }
 }
+
+ChromeRPC.onMessage((request, sender, sendResponse) => {
+  console.log(sender.tab ?
+    'from a content script:' + sender.tab.url :
+    'from the extension');
+  console.log('got a message', request, sender, sendResponse)
+  if (request.greeting === 'hello')
+  sendResponse({farewell: 'goodbye'});
+}) 
 
 chrome.storage.local.get('todos', (obj) => {
   let todos = obj.todos;

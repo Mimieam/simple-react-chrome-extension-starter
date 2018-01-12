@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import '../index.css';
 
+import { ChromeRPC } from '../utils';
+
+// import { backgroundApp } from '../background/index';
 
 /*
 Yes you can directly call make calls from the popup to the background functionalities 
 like this 
 
-import { backgroundFctTest } from '../background/index';
 backgroundFctTest('Popup')
 
 however this is a bad idea, for starter the chrome background APIs will be undefined so your 
@@ -18,11 +20,11 @@ but your Dev experience will just be poor for very little gains
 use :
 
 chrome.runtime functions
-
 */
 
+ChromeRPC.sendMessage({ Message: 'hello' }, () => { 'greeting sent from popup'})
 
-console.log('popup LOADED x6 ')
+console.log('popup LOADED x6 ', chrome.runtime.id)
 
 const styles = {
   mainContent: {
@@ -34,8 +36,15 @@ const styles = {
 }
 
 class Popup extends Component {
+  getBackgroundPage() {
+    chrome.runtime.getBackgroundPage(function (backgroundPage) {
+      console.log(backgroundPage)
+      console.log(this)
+    });
+  }
   clickHandler() {
     console.log('ACTIONS = *Button clicked*')
+    this.getBackgroundPage()
     // console.log(backgroundFctTest('Popup'))
   }
   render () {

@@ -22,6 +22,8 @@ Run `Yarn build`
 In Dev mode, the chrome extension will be loading file from the **Webpack-dev-server** at localhost:3000 - If you see nothing displayed that would most likely be because of the server isn't running.
 Load the **public** folder as an unpacked Extension
 
+Please manually reload the app if you modify one of the **manisfest.json** 
+
 #### -> Packaging
 
   comming up :)
