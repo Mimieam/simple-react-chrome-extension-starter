@@ -66,8 +66,13 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
    ],
-   // background: [require.resolve('./polyfills'), paths.appBackgroundIndexJs],
-   background: [require.resolve('./polyfills'), paths.appBackgroundIndexJs],
+    contentscript: [require.resolve('./polyfills'), paths.appContentScriptIndexJs],
+   
+    background: [require.resolve('./polyfills'),
+      require.resolve('webpack-dev-server/client'),
+      require.resolve('webpack/hot/dev-server'),
+      paths.appBackgroundIndexJs
+    ],
    // contextMenu: paths.appContextBackgroundIndexJs,
     options: [
       require.resolve('./polyfills'),

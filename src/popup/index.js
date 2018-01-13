@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import '../index.css';
 
+
 import { ChromeRPC } from '../utils';
 
 // import { backgroundApp } from '../background/index';
@@ -28,36 +29,35 @@ console.log('popup LOADED x6 ', chrome.runtime.id)
 
 const styles = {
   mainContent: {
-    height: 300,
-    width: 200,
+    height: 500,
+    width: 500,
     background: '#222222',
     color: '#fff'
   }
 }
 
 class Popup extends Component {
+
   getBackgroundPage() {
-    chrome.runtime.getBackgroundPage(function (backgroundPage) {
-      console.log(backgroundPage)
-      console.log(this)
-    });
+    const bgJS = chrome.extension.getBackgroundPage()
+    console.log(bgJS)
   }
+
   clickHandler() {
+
     console.log('ACTIONS = *Button clicked*')
     this.getBackgroundPage()
-    // console.log(backgroundFctTest('Popup'))
   }
+
   render () {
     return (
       <div style={styles.mainContent}>
         WOrkSpace Popup
-        <input type='button' value='WorkSpace 1' onClick={this.clickHandler.bind(this)}/>
+        <input type='button' value='WorkSpace 2' onClick={this.clickHandler.bind(this)}/>
       </div>
     )
   }
 }
 
-
-// export default Popup
 
 ReactDOM.render(<Popup />, document.getElementById('root'));

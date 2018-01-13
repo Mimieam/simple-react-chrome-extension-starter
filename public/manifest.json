@@ -10,7 +10,13 @@
   "default_locale": "en",
   "background": {
     "page": "background.html"
-  },  
+  },   
+  "content_scripts": [
+    {
+      "matches":["http://localhost:3000/*"],
+      "js":["contentScript.js"]
+    }
+  ],
   "permissions": [
     "tabs",
     "contextMenus",

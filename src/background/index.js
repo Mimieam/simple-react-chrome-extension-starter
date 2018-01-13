@@ -1,4 +1,34 @@
 import { ChromeRPC } from '../utils'
+import bluebird from 'bluebird';
+
+//@ts-ignore
+global.Promise = bluebird;
+
+function promisifier(method) {
+  // return a function
+  return function promisified(...args) {
+    // which returns a promise
+    return new Promise((resolve) => {
+      args.push(resolve);
+      method.apply(this, args);
+    });
+  };
+}
+
+function promisifyAll(obj, list) {
+  list.forEach(api => bluebird.promisifyAll(obj[api], { promisifier }));
+}
+
+// let chrome extension api support Promise
+promisifyAll(chrome, [
+  'tabs',
+  'windows',
+  'browserAction',
+  'contextMenus'
+]);
+promisifyAll(chrome.storage, [
+  'local',
+]);
 
 export var backgroundApp = {
   getRuntimeId() {
@@ -40,13 +70,13 @@ function closeIfExist() {
     chrome.windows.remove(windowId);
     windowId = chrome.windows.WINDOW_ID_NONE;
   }
-}
+} 
 
 function popWindow(type) {
   closeIfExist();
 
-  let _w = window.outerWidth / 2 - window.outerWidth /5
-  let _h = window.outerHeight / 2 - window.outerHeight /5
+  let _w = window.outerWidth / 3 
+  let _h = window.outerHeight / 3 
  
   const options = {
     type: 'popup',
@@ -77,3 +107,16 @@ chrome.contextMenus.onClicked.addListener((event) => {
     popWindow('open');
   }
 });
+// popWindow('open')
+
+const extUrl = `chrome-extension://${ chrome.runtime.id }/popup.html`
+console.log(extUrl)
+// chrome.windows.create({url:extUrl})
+
+// chrome.tabs.create({'url': chrome.extension.getURL('popup.html')}, function(tab) {
+// });
+const findTabByUrl = async (_url) => {
+  let w = await chrome.windows.getAll(w=>w)
+  console.log(w)
+}
+findTabByUrl('localhost:3000')
