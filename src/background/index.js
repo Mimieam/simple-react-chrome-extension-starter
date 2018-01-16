@@ -1,35 +1,5 @@
 import { ChromeRPC } from '../utils'
-import bluebird from 'bluebird';
-
-//@ts-ignore
-global.Promise = bluebird;
-
-function promisifier(method) {
-  // return a function
-  return function promisified(...args) {
-    // which returns a promise
-    return new Promise((resolve) => {
-      args.push(resolve);
-      method.apply(this, args);
-    });
-  };
-}
-
-function promisifyAll(obj, list) {
-  list.forEach(api => bluebird.promisifyAll(obj[api], { promisifier }));
-}
-
-// let chrome extension api support Promise
-promisifyAll(chrome, [
-  'tabs',
-  'windows',
-  'browserAction',
-  'contextMenus'
-]);
-promisifyAll(chrome.storage, [
-  'local',
-]);
-
+import { GCWindows, GCTabs, helperAsyncTestFn } from './helpers'
 export var backgroundApp = {
   getRuntimeId() {
     return chrome.runtime.id
@@ -41,7 +11,7 @@ ChromeRPC.onMessage((request, sender, sendResponse) => {
     'from a content script:' + sender.tab.url :
     'from the extension');
   console.log('got a message', request, sender, sendResponse)
-  if (request.greeting === 'hello')
+  if (request.Message === 'hello')
   sendResponse({farewell: 'goodbye'});
 }) 
 
@@ -56,7 +26,7 @@ chrome.storage.local.get('todos', (obj) => {
   } else {  
     // Initial 
     console.log('Background.js loaded x 5')
-    chrome.browserAction.setBadgeText({ text: '1' });
+    chrome.browserAction.setBadgeText({ text: '¬_¬' });
   } 
 });
 
@@ -109,14 +79,16 @@ chrome.contextMenus.onClicked.addListener((event) => {
 });
 // popWindow('open')
 
-const extUrl = `chrome-extension://${ chrome.runtime.id }/popup.html`
-console.log(extUrl)
-// chrome.windows.create({url:extUrl})
+// const extUrl = `chrome-extension://${ chrome.runtime.id }/popup.html`
+// console.log(extUrl)
+// // chrome.windows.create({url:extUrl})
 
-// chrome.tabs.create({'url': chrome.extension.getURL('popup.html')}, function(tab) {
-// });
-const findTabByUrl = async (_url) => {
-  let w = await chrome.windows.getAll(w=>w)
-  console.log(w)
-}
-findTabByUrl('localhost:3000')
+// // chrome.tabs.create({'url': chrome.extension.getURL('popup.html')}, function(tab) {
+// // });
+// // const findTabByUrl = async (_url) => {
+  
+// //   console.log(w)
+// // }
+// // findTabByUrl('localhost:3000')
+
+// // helperAsyncTestFn()

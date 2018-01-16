@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import '../index.css';
-
-
-import { ChromeRPC } from '../utils';
-
-// import { backgroundApp } from '../background/index';
-
+import { ChromeRPC,  } from '../utils';
+import { findAndLoadExtentionPageInNewBrowserTab } from '../background/helpers';
+console.log('env', process.env.NODE_ENV)
 /*
 Yes you can directly call make calls from the popup to the background functionalities 
 like this 
@@ -23,7 +20,9 @@ use :
 chrome.runtime functions
 */
 
-ChromeRPC.sendMessage({ Message: 'hello' }, () => { 'greeting sent from popup'})
+
+
+ChromeRPC.sendMessage({ Message: 'hello' }, (response) => { console.log('response received:', response)})
 
 console.log('popup LOADED x6 ', chrome.runtime.id)
 
@@ -49,11 +48,20 @@ class Popup extends Component {
     this.getBackgroundPage()
   }
 
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'development') {
+      findAndLoadExtentionPageInNewBrowserTab('http://localhost:3000/')
+    }
+
+  }
+
+
   render () {
     return (
       <div style={styles.mainContent}>
         WOrkSpace Popup
-        <input type='button' value='WorkSpace 2' onClick={this.clickHandler.bind(this)}/>
+        {`chrome-extension://${ chrome.runtime.id }/popup.html`}
+        <input type='button' value='WorkSpace 5' onClick={this.clickHandler.bind(this)}/>
       </div>
     )
   }
