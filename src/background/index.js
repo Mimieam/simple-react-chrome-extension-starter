@@ -1,18 +1,32 @@
 import { ChromeRPC } from '../utils'
-import { GCWindows, GCTabs, helperAsyncTestFn } from './helpers'
-export var backgroundApp = {
-  getRuntimeId() {
-    return chrome.runtime.id
-  }
-}
+
+import {
+  GCTabs,
+  GCWindows,
+  helperAsyncTestFn,
+  findAndLoadExtentionPageInNewBrowserTab
+} from './helpers'
+
 
 ChromeRPC.onMessage((request, sender, sendResponse) => {
   console.log(sender.tab ?
     'from a content script:' + sender.tab.url :
     'from the extension');
-  console.log('got a message', request, sender, sendResponse)
-  if (request.Message === 'hello')
-  sendResponse({farewell: 'goodbye'});
+  console.log('got a message', request, sender)
+  switch (request.Message) {
+    case 'hello':
+      sendResponse({farewell: 'goodbye'});
+      break;
+    case 'openExt':
+      if (process.env.NODE_ENV === 'development') {
+        findAndLoadExtentionPageInNewBrowserTab ('http://localhost:3000/')
+      }
+      sendResponse({Message: 'opening Chrome Ext'});
+      break;
+
+    default:
+      break;
+  }
 }) 
 
 chrome.storage.local.get('todos', (obj) => {
@@ -61,34 +75,24 @@ function popWindow(type) {
       windowId = win.id;
     });
   }
+  
 }
-// inspired from https://github.com/jhen0409/react-chrome-extension-boilerplate
-chrome.contextMenus.create({
-  id: CONTEXT_MENU_ID,
-  title: 'React Chrome Extension Example',
-  contexts: ['all'],
-  documentUrlPatterns: [
-    'https://github.com/*'
-  ] 
-});
+
+chrome.runtime.onInstalled.addListener(() => {
+  // inspired from https://github.com/jhen0409/react-chrome-extension-boilerplate
+  chrome.contextMenus.create({
+    id: CONTEXT_MENU_ID,
+    title: 'React Chrome Extension Example',
+    contexts: ['all'],
+    documentUrlPatterns: [
+      'https://github.com/*'
+    ] 
+  });
+
+})
 
 chrome.contextMenus.onClicked.addListener((event) => {
   if (event.menuItemId === CONTEXT_MENU_ID) {
     popWindow('open');
   }
 });
-// popWindow('open')
-
-// const extUrl = `chrome-extension://${ chrome.runtime.id }/popup.html`
-// console.log(extUrl)
-// // chrome.windows.create({url:extUrl})
-
-// // chrome.tabs.create({'url': chrome.extension.getURL('popup.html')}, function(tab) {
-// // });
-// // const findTabByUrl = async (_url) => {
-  
-// //   console.log(w)
-// // }
-// // findTabByUrl('localhost:3000')
-
-// // helperAsyncTestFn()

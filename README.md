@@ -148,3 +148,20 @@ new CopyWebpackPlugin([
  * and the BackEnd in src/backgound/index.js
  */
  ```
+ .babelrc seems to get overriden sometimes... not sure why... i didn't mofified anything in regard to babel except adding the runtime plugin. I blame the ejected CRA for that :P  
+```
+{
+  "presets": [
+    "env",
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-decorators",
+    "transform-react-constant-elements",
+    "transform-react-inline-elements",
+    "transform-runtime"
+  ]
+}
+```

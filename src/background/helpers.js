@@ -44,12 +44,15 @@ GCTabs.getLastActiveTabFromAGroupOfTabs =(tabs) => {
 
 export const findAndLoadExtentionPageInNewBrowserTab = async (targetUrl) => {
   // chrome extension url
+  console.log('opening - findAndLoadExtentionPageInNewBrowserTab ')
   const extUrl =  `chrome-extension://${chrome.runtime.id }/popup.html`
   
   // grab all tabs matching that target url
   const ext = await GCTabs.queryByUrl(extUrl)
 
-  const tabs = await GCTabs.queryByUrl(`${ targetUrl }/`) 
+  const tabs = await GCTabs.queryByUrl(`${ targetUrl }`) 
+
+  console.log('tabs', tabs)
 
   let extUrlIsOpen = GCTabs.getLastActiveTabFromAGroupOfTabs(ext)
 
@@ -58,16 +61,18 @@ export const findAndLoadExtentionPageInNewBrowserTab = async (targetUrl) => {
     console.log(extUrlIsOpen)
     return
   }
-
+  console.log('exit point 2')
   let lastActiveTab = GCTabs.getLastActiveTabFromAGroupOfTabs(tabs)
   
   // update current tab or create a new one
   if (lastActiveTab) {
+    console.log('exit point 3')
     await GCTabs.updateUrlAtTabId(lastActiveTab.id, extUrl)
   } else {
-    if (tabs.len <= 2) {
+    console.log('exit point 4', tabs)
+    // if (tabs.len <= 2) {
       await chrome.tabs.create({url:extUrl, active: true})
-    }
+    // }
   }
 }
 
