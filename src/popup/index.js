@@ -2,15 +2,22 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
-import { ChromeRPC } from '../utils';
-
-import '../index.css';
-
-
 import Button from 'material-ui/Button';
 import indigo from 'material-ui/colors/indigo';
 import pink from 'material-ui/colors/pink';
 import red from 'material-ui/colors/red';
+import withStyles from 'material-ui/styles/withStyles';
+
+import Icon from 'material-ui/Icon';
+import AddToPhotosIcon from 'material-ui-icons/AddToPhotos';
+import IconButton from 'material-ui/IconButton';
+import Modal from 'material-ui/Modal/Modal';
+import Typography from 'material-ui/Typography/Typography';
+import StyledModal from './styledModal'
+
+import '../index.css';
+import Workspace from './workspace'
+
 
 const theme = createMuiTheme({
   palette: {
@@ -23,7 +30,7 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiButton: {
+    MuiIconButton: {
       // Name of the styleSheet
       root: {
         // Name of the rule
@@ -36,60 +43,58 @@ const theme = createMuiTheme({
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
       },
     },
+    MuiExpansionPanel: {
+      root: {
+        background: 'linear-gradient(45deg, #68F1F7 30%, #5DA2FB 90%)',
+        borderRadius: 2,
+        boxShadow: '0 3px 5px 2px rgba(73, 182, 228, .20)',
+      }
+    }
   },
 });
 
-// function Popup() {
-//   return (
-//     <MuiThemeProvider theme={theme}>
-//       <Button>Overrides</Button>
-//     </MuiThemeProvider>
-//   );
-// }
-
-
-// import React, { Component } from 'react'
-// import ReactDOM from 'react-dom';
-
-
-
-
-
 const styles = {
-  mainContent: {
+  root: {
+    width: 530,
     height: 500,
-    width: 500,
     background: '#363537',
     color: '#fff'
-  }
-}
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+};
 
 class Popup extends Component {
+  state = {
+    modalOpen: false,
+  };
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true })
 
-  getBackgroundPage() { }
 
-  clickHandler() {
-    
-    this.getBackgroundPage()
   }
+  handleModalClose = () => { this.setState({ modalOpen: false }) }
 
-  componentDidMount() { }
+  createNewWS() {
+    
+  }
+  render() {
+    const { classes } = this.props;
 
-
-  render () {
     return (
-        <MuiThemeProvider theme={theme}>
-      <div style={ styles.mainContent }>
-          <Button onClick={this.clickHandler.bind(this)} >Overrides</Button>
-        CHROME EXT URL = 
-        <h1>{`chrome-extension://${ chrome.runtime.id }/popup.html`} </h1>
-        <input type='button' value='WorkSpace 5' onClick={this.clickHandler.bind(this)}/>
-          <Button>Overrides</Button>
-      </div>
-        </MuiThemeProvider>  
+      <MuiThemeProvider theme={theme}>
+        <IconButton onClick={ this.handleModalOpen.bind(this) }>
+          <AddToPhotosIcon/>
+        </IconButton>
+        <StyledModal/>
+      </MuiThemeProvider>  
     )
   }
 }
 
+export default Popup
 
-ReactDOM.render(<Popup />, document.getElementById('root'));
+const StyledPopup = withStyles(styles)(Popup);
+ReactDOM.render(<StyledPopup />, document.getElementById('root'));

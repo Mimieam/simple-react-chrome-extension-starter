@@ -18,10 +18,11 @@ ChromeRPC.onMessage((request, sender, sendResponse) => {
       sendResponse({farewell: 'goodbye'});
       break;
     case 'openExt':
-      if (process.env.NODE_ENV === 'development') {
+        
+      // if (process.env.NODE_ENV === 'development') {
         findAndLoadExtentionPageInNewBrowserTab ('http://localhost:3000/')
-      }
-      sendResponse({Message: 'opening Chrome Ext'});
+      // }
+      sendResponse({Message: 'opening Chrome Ext'}); 
       break;
 
     default:
