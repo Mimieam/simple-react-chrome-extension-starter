@@ -2,10 +2,12 @@
 export let GCWindows = {}
 export let GCTabs = {}
 
-GCWindows.getLastFocused = async () => {
+
+// populate=true will return populate the tabs property of the window object
+GCWindows.getLastFocused = async (populate=false) => {
  let w = await new Promise((resolve) => {
-     return chrome.windows.getLastFocused(t => resolve(t))
-  }) 
+   return chrome.windows.getLastFocused({populate: populate}, t => resolve(t))
+  })
   return w
 }
 

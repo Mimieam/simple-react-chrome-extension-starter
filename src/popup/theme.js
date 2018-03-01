@@ -3,13 +3,17 @@ import { createMuiTheme } from 'material-ui/styles';
 import indigo from 'material-ui/colors/indigo';
 import pink from 'material-ui/colors/pink';
 import red from 'material-ui/colors/red';
+import { deepOrange, teal } from 'material-ui/colors'
+
+// https://cimdalli.github.io/mui-theme-generator/
+
 
 const theme = createMuiTheme({
   palette: {
     contrastThreshold: 3,
     tonalOffset: 0.2,
-    primary: indigo,
-    secondary: pink,
+    primary: deepOrange,
+    secondary: teal,
     error: {
       main: red[500],
     },
@@ -28,7 +32,7 @@ const theme = createMuiTheme({
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
       },
     },
-    MuiIconButton: {
+    _MuiIconButton: {
       // Name of the styleSheet
       root: {
         // Name of the rule

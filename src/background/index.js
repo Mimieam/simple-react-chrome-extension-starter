@@ -20,7 +20,7 @@ ChromeRPC.onMessage((request, sender, sendResponse) => {
     case 'openExt':
         
       // if (process.env.NODE_ENV === 'development') {
-        findAndLoadExtentionPageInNewBrowserTab ('http://localhost:3000/')
+      findAndLoadExtentionPageInNewBrowserTab ('http://localhost:3000/')
       // }
       sendResponse({Message: 'opening Chrome Ext'}); 
       break;

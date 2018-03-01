@@ -15,21 +15,29 @@ const styles = {
     alignItems: 'center'
   },
   paper: {
+    height: 'auto',
     position: 'inherit',
-    width: theme.spacing.unit * 30,
+    width: theme.spacing.unit * 40,
     backgroundColor: theme.palette.background.paper,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 1,
     '&:focus': {
       outline: 'rgba(255, 105, 135, .30) auto 5px',
       boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
     },
-    '> *': {
-      padding: '5px',
-      background:'purple'
+    '& >:nth-child(-n+2)': { // apply this style to the first 2 children
+      margin: `${theme.spacing.unit * 2}px`,
     }
     
   },
+  customButton: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  }
 };
 
 class StyledModal extends Component {
@@ -62,18 +70,21 @@ class StyledModal extends Component {
         onClose={ this.handleClose }
         className={ classes.modalWrapper}
       >
-        <div className={ classes.paper }>
+        <div className={ ` flex-container column ${classes.paper}` }>
           
           <Typography variant="title" id="modal-title">
-            Enter a Name Please :)
+            Workspace Name ?
           </Typography>
           <TextField
             id="newWSInput"
-            placeholder="New Workspace"
-            // className={classes.textField}
+            placeholder="i.e Finance, Sport, Thesis Research..."
+            // className={`flex-item`}
             helperText="All the tabs open in the current Window will become part of the new Workspace"
             />
-            <IconButton onClick={ () => {
+            <div className={ 'flex-item row right' }>
+              <IconButton
+                 style={ styles.customButton}
+                onClick={ () => {
               console.log('IconButton clicked')
               const newWSName = document.querySelector('#newWSInput').value // get name
               this.props.callback(newWSName) // handle it
@@ -82,11 +93,14 @@ class StyledModal extends Component {
             } }> 
             Save
             </IconButton>
-            <Button onClick={ () => { 
+              <IconButton
+                style={ styles.customButton}
+                onClick={ () => { 
               this.handleClose()
             } }>
               Cancel  
-            </Button>
+            </IconButton>
+            </div>
         </div>
         </Modal>
         </MuiThemeProvider>  
