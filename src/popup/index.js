@@ -60,7 +60,7 @@ class Popup extends Component {
 
   async componentWillMount() {
     const allWS = await WSM.getAllWorkSpace()
-    const window = await GCWindows.getLastFocused(true)
+    const window = await GCWindows.getCurrent(true)
     console.log(allWS)
     this.setState({
       workspaces: allWS,
@@ -73,36 +73,7 @@ class Popup extends Component {
   }
   
   async createNewWS(name) {
-    /*  In case in the future you decide to add support for workspace spanning multiple windows...
-     *  use the code below to get your formated Object instead of an array 
-     *   
-    // query all windows...
-    const t = await GCTabs._query({})
-
-    // aggregate tabs by windowID 
-    const formatted = t.reduce((obj, tab, index) => {
-      obj[tab.windowId] ?  obj[tab.windowId].push(tab): obj[tab.windowId] = [tab]
-      return obj
-    }, {})
-    */
-
-    let currWindow = await GCWindows.getLastFocused(true)
-    const formatted = currWindow.tabs
-
-    const ws = {
-      name: name,
-      tabs: formatted
-    }
-    await this.setState({
-      workspaces: this.state.workspaces.concat(ws)
-    })
-    console.log(ws)
     saveCurrentWindow(name)
-    //save to background.js localstorage..
-
-
-
-    return ws
   }
 
   render() {

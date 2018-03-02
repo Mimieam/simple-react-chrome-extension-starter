@@ -10,6 +10,12 @@ GCWindows.getLastFocused = async (populate=false) => {
   })
   return w
 }
+GCWindows.getCurrent = async (populate=false) => {
+ let w = await new Promise((resolve) => {
+   return chrome.windows.getCurrent({populate: populate}, t => resolve(t))
+  })
+  return w
+}
 
 GCTabs._query = async (options) => {  
   let w = await new Promise((resolve) => {

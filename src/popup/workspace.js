@@ -40,6 +40,7 @@ class WorkspaceButton extends Component {
 
   _handleOnHold = (e) => {
     console.log('Executes code after holding for 1sec', this.props.name)
+    console.log(this.props.urls)
   }
   
   render() {

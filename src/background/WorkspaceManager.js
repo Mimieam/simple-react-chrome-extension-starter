@@ -46,7 +46,7 @@ export class WorkSpaceManager {
     const allWS = this.wsArr.map(async (wsName) => {
     
       const compressed = await localStorage.getItem(wsName)
-      const formatted = await compressed ? decompressAndParse(compressed, true) : []
+      const formatted = await compressed ? decompressAndParse(compressed) : []
       return {
         name: wsName,
         tabs: formatted
@@ -89,8 +89,20 @@ export const WSM = new WorkSpaceManager('ws') // workspace manager - workspace a
 console.log(WSM)
 
 export const saveCurrentWindow = async (name) => {
+    /*  In case in the future you decide to add support for workspace spanning multiple windows...
+     *  use the code below to get your formated Object instead of an array 
+     *   
+    // query all windows...
+    const t = await GCTabs._query({})
 
-    const currentWindow = await GCWindows.getLastFocused(true)
+    // aggregate tabs by windowID 
+    const formatted = t.reduce((obj, tab, index) => {
+      obj[tab.windowId] ?  obj[tab.windowId].push(tab): obj[tab.windowId] = [tab]
+      return obj
+    }, {})
+    */
+    const currentWindow = await GCWindows.getCurrent(true)
+    console.log('In saveCurrentWindow', currentWindow)
     const formatted = currentWindow.tabs.map(t => {
       return {
         // icon: t.favIconUrl || '',
@@ -104,50 +116,8 @@ export const saveCurrentWindow = async (name) => {
     }
     console.log(cw)
     const compressedWindow = stringifyAndCompress(formatted)  
-    console.log(compressedWindow)
     const cw_name = name ||`ws_${WSM.count}`
 
     WSM.addWorkSpace(cw_name, compressedWindow)
-
+    return cw
 }
-// export const Focus = async (currentOnly) => {
-//   chrome.windows.getAll((windows) => {
-//     const fn = [GCWindows.getLastFocused()]
-//     fn.then((arrayOfPromises) => {
-//       const p = Promise.all(arrayOfPromises) // arrayOfPromised window
-//       return p
-//     }).then((arr) => {
-//       console.log(arr)  // array or resolved windows with tabs
-//       const allTabsGroupedByWindows = arr.map(w => { 
-//         return w.tabs.map(t => {
-//           return {
-//             icon: t.favIconUrl || "",
-//             title: t.title || "",
-//             url: t.url
-//           }
-//         })
-//       })
-//       const allWindowsIds = arr.map(w => { 
-//         return w.windowId
-//       })
-//       // returns the tabs to be compressed and the ids of windows to close
-//         return [allTabsGroupedByWindows, allWindowsIds]
-//       }).then((arr) => {
-//         console.log(arr)
-//         const allWindowsIds = arr[1]
-//         const compressedWindows = _stringifyAndCompress(arr[0])  
-//         console.log(compressedWindows)
-//         WSM.addWorkSpace('focus_' + WSM.count, compressedWindows)
-        
-//         //create a blank window
-//         // chrome.windows.create({ url: "about:blank" }, () => { console.log('done') })
-        
-//         //Merciless killing of those windows!!
-//         // allWindowsIds.map(wId => chrome.windows.remove(wId, (d) => { console.log("Done removing", wId) }))
-
-     
-//     })
-// }
-
-
-// // export default WSM
