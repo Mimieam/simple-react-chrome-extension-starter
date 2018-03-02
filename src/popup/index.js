@@ -46,6 +46,10 @@ export const styles = {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  buttonBadge: {
+      margin: '20px',
+      padding: `10px ${theme.spacing.unit * 20}px`,
+  }
 };
 
 class Popup extends Component {
@@ -96,12 +100,14 @@ class Popup extends Component {
             </div>  
           </div>  
 
-          <div className={ 'flex-item column' } style={ {
+          <div className={ 'flex-item column' }
+            style={{
             justifyContent: 'start',
             wordWrap: 'break-word',
             overflowX: 'hidden'
-          } }>
-            
+            } }
+          >
+          <div  className="flex-item row wrap"> 
           
           
           { console.log(this.state.workspaces) }
@@ -114,6 +120,7 @@ class Popup extends Component {
               })
             }  
             
+          </div>
           </div>
 
           </div>  
