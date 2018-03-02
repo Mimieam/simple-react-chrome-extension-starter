@@ -18,6 +18,7 @@ import StyledModal from './styledModal'
 import './muscle.css'
 import '../index.css';
 import Workspace from './workspace'
+import { saveCurrentWindow, WSM } from '../background/WorkspaceManager';
 import { GCWindows , GCTabs } from '../background/helpers';
 
 import theme from './theme'
@@ -52,8 +53,19 @@ class Popup extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      workspaces:[]
+      workspaces: [],
+      wID:'None'
     }
+  }
+
+  async componentWillMount() {
+    const allWS = await WSM.getAllWorkSpace()
+    const window = await GCWindows.getLastFocused(true)
+    console.log(allWS)
+    this.setState({
+      workspaces: allWS,
+      wID: window.id
+    })
   }
 
   onClick = () => {
@@ -81,11 +93,15 @@ class Popup extends Component {
       name: name,
       tabs: formatted
     }
-    // console.log('parent fct called - received', name, JSON.stringify(formatted))
     await this.setState({
       workspaces: this.state.workspaces.concat(ws)
     })
     console.log(ws)
+    saveCurrentWindow(name)
+    //save to background.js localstorage..
+
+
+
     return ws
   }
 
@@ -100,6 +116,7 @@ class Popup extends Component {
               <Typography variant="title" gutterBottom>
                 [WSp]
               </Typography>
+              { this.state.wID }
             </div>  
             <div className={'flex-item top right'}>
               <IconButton onClick={ this.onClick } style={ styles.customButton }>

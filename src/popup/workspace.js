@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import withStyles from 'material-ui/styles/withStyles';
 import Button from 'material-ui/Button';
 
+import Snackbar from 'material-ui/Snackbar';
 
 import { styles } from './index';
 
@@ -14,18 +15,15 @@ class WorkspaceButton extends Component {
   state = {
     longPressed: false
   }
+  
   handleButtonPress = (e) => {
-    console.log('Pressed', this.state.longPressed)
     this.buttonPressTimer = setTimeout(() => {
-      this.setState({longPressed: true})
-      console.log('long press activated')
+      this.setState({ longPressed: true })
+      this._handleOnHold(e)
     }, 1000);
   }
   
   handleButtonRelease = async (e) => {
-    console.log('Released 1-', this.state.longPressed)
-    console.log('*******New State SETS*******')
-    console.log('Released 2-', this.state.longPressed)
     clearTimeout(this.buttonPressTimer)
   }
   
@@ -38,6 +36,10 @@ class WorkspaceButton extends Component {
 
   _handleOnClick = (e) => {
     console.log(this.props.name)
+  }
+
+  _handleOnHold = (e) => {
+    console.log('Executes code after holding for 1sec', this.props.name)
   }
   
   render() {

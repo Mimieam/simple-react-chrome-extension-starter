@@ -7,6 +7,7 @@ import {
   findAndLoadExtentionPageInNewBrowserTab
 } from './helpers'
 
+import { WSM } from './WorkspaceManager';
 
 ChromeRPC.onMessage((request, sender, sendResponse) => {
   console.log(sender.tab ?
