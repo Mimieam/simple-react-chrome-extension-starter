@@ -17,11 +17,12 @@ import StyledModal from './styledModal'
 
 import './muscle.css'
 import '../index.css';
-import Workspace from './workspace'
+import Workspace from './components/Workspace'
 import { saveCurrentWindow, WSM } from '../background/WorkspaceManager';
 import { GCWindows , GCTabs } from '../background/helpers';
 
 import theme from './theme'
+import WspSnackbar from './components/Snackbar.wsp';
 
 export const styles = {
   root: {
@@ -58,7 +59,8 @@ class Popup extends Component {
     super(props)
     this.state = {
       workspaces: [],
-      wID:'None'
+      wID: 'None',
+      activeWS: null // active clicked ws 
     }
   }
 
@@ -72,12 +74,29 @@ class Popup extends Component {
     })
   }
 
+  componentDidMount() {
+    console.log(this)
+  }
+
   onClick = () => {
     this.modal.handleOpen() // do stuff
   }
+
+  onWorkspaceClick = (wsObj) => {
+    console.log('a workspace was clicked', wsObj)
+    this.snack.handleClick({name: wsObj})
+  }
   
   async createNewWS(name) {
-    saveCurrentWindow(name)
+    await saveCurrentWindow(name)
+    const allWS = await WSM.getAllWorkSpace()
+    const window = await GCWindows.getCurrent(true)
+    console.log(allWS)
+    await this.setState({
+      workspaces: allWS,
+      wID: window.id
+    })
+    console.log( 'done creating stuff')
   }
 
   render() {
@@ -100,22 +119,23 @@ class Popup extends Component {
             </div>  
           </div>  
 
-          <div className={ 'flex-item column' }
-            style={{
-            justifyContent: 'start',
-            wordWrap: 'break-word',
-            overflowX: 'hidden'
-            } }
+          <div
+            className={ 'flex-item column' }
+            // style={{
+            // justifyContent: 'start',
+            // wordWrap: 'break-word',
+            // overflowX: 'hidden'
+            // }}
           >
           <div  className="flex-item row wrap"> 
-          
-          
+
           { console.log(this.state.workspaces) }
             {
               this.state.workspaces.map((ws) => {
                 return <Workspace
                   name={ ws.name }
                   urls={ ws.tabs }
+                  onWorkspaceClick={(e)=> this.onWorkspaceClick(e)}
                 />
               })
             }  
@@ -127,7 +147,10 @@ class Popup extends Component {
           <StyledModal
             callback={this.createNewWS.bind(this)}  
             onRef={ ref => (this.modal = ref) }
-          />
+        />
+        <WspSnackbar
+          onRef={ ref => (this.snack = ref) }
+        />
       </MuiThemeProvider>  
     )
   }

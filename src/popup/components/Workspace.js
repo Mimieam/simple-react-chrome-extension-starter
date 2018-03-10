@@ -7,8 +7,6 @@ import Snackbar from 'material-ui/Snackbar';
 import Badge from 'material-ui/Badge';
 import Typography from 'material-ui/Typography';
 
-// import { styles } from './index';
-
 const styles = theme => ({
   buttonBadge: {
     // top: '5px',
@@ -51,6 +49,7 @@ class WorkspaceButton extends Component {
   
   _handleOnClick = (e) => {
     console.log(this.props.name)
+    this.props.onWorkspaceClick(this.props.name)
   }
   
   _handleOnHold = (e) => {
@@ -60,7 +59,7 @@ class WorkspaceButton extends Component {
   
   render() {
     const { classes } = this.props;
-    console.log(classes)
+    // console.log(classes)
     return (
       <div>
         <Button variant="raised" color="primary" className={ classes.button }
@@ -72,6 +71,7 @@ class WorkspaceButton extends Component {
           
           <Typography >{ this.props.name }</Typography>
           <Badge className={ classes.buttonBadge} color="primary" badgeContent={this.props.urls.length}>
+          <span/>
           </Badge>          
         </Button>  
       </div>

@@ -19,7 +19,7 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
-    MuiButton: {
+    __MuiButton: {
       // Name of the styleSheet
       root: {
         // Name of the rule
