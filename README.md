@@ -25,9 +25,11 @@ Load the **public** folder as an unpacked Extension
 Please manually reload the app if you modify one of the **manisfest.json** 
 
 #### -> Packaging
-
-  comming up :)
-
+ ` 
+  yarn keygen  // create the key.pem file
+  yarn compress  // compress for production
+  yarn compress  --addversion //compress with version in name
+`
 
 #### Folder Structure
 d
