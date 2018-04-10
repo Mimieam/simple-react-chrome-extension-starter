@@ -17,25 +17,24 @@ if (hasPrivateKey) {
     // codebase: "http://localhost:8000/myFirstExtension.crx",
     privateKey: fs.readFileSync("./key.pem")
   });
-
+  const fileName = `${ name }${ addVersionFlag ? version :''}`
   crx.load(path.resolve("build"))
   .then(() => crx.loadContents())
   .then((archiveBuffer) => {
-    let fileName = `${ name }${ addVersionFlag ? version :''}.zip`
-    fs.writeFile(`release/${fileName}`, archiveBuffer, (err) => { 
+    fs.writeFile(`release/${fileName}.zip`, archiveBuffer, (err) => { 
       if (err) {
         console.log(err)
       } else {
-        console.log(`release/${fileName} was created (Version: ${version})`)
+        console.log(`release/${fileName}.zip v${version} was created `)
       }
     });
     
     crx.pack(archiveBuffer).then((crxBuffer) => {
-      fs.writeFile(`release/${name}.crx`, crxBuffer, (err) => { 
+      fs.writeFile(`release/${fileName}.crx`, crxBuffer, (err) => { 
         if (err) {
           console.log(err)
         } else {
-          console.log(`${name}.crx Saved to release/`)
+          console.log(`release/${fileName}.crx v${version} was created `)
         }
       });
     });
