@@ -32,9 +32,10 @@ yarn keygen  // create the key.pem file
 yarn compress  // compress for production (output both .zip and .crx)
 yarn compress  --addversion //compress with version in name
 ```
+>> Note I believe the release folder should not be tracked via git because the zip and crx contain your generated key.pem
 
 #### Folder Structure
-d
+
 ```
 ├── build/
 ├── config/
