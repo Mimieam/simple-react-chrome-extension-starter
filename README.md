@@ -84,7 +84,7 @@ TODO:
 - <s>add write-file-webpack-plugin -> write to a dev/temp folder </s>
 - <s>enable reload of chrome app extension</s>
 - remove obsolete files
-- fully integrate contentScript 
+- <s> fully integrate contentScript <s>
 - fully integrate option 
   
 
@@ -153,8 +153,9 @@ new CopyWebpackPlugin([
  * and the BackEnd in src/backgound/index.js
  */
  ```
- .babelrc seems to get overriden sometimes... not sure why... i didn't mofified anything in regard to babel except adding the runtime plugin. I blame the ejected CRA for that :P  
+ .babelrc seems to get overriden when running yarn ... not sure why... i didn't mofified anything in regard to babel except adding the runtime plugin. I blame the ejected CRA for that :P  
 ```
+
 {
   "presets": [
     "env",
@@ -170,3 +171,37 @@ new CopyWebpackPlugin([
   ]
 }
 ```
+
+https://developer.chrome.com/extensions/manifest#web_accessible_resources
+
+### Contentscript not updating??
+
+In dev mode, when **contentscript** is update - the entire chrome app needs to be reloaded or the old version would still be used. I believe it's because the dev mode Manifest.json is referencing contentscript.bundle.js directly and once loaded chrome will cache this.
+A solutions:
+  -  inject it within the iframe, but it looked very ugly to me.
+  - chrome.runtime.reload() ... this needs further investigation to avoid reload loops in dev mode...
+  - use web_accessible_resources and change ["contentscript.bundle.js"] in manifest.json to some kind of contentScriptDevInjector.js script that would inject an html web ressource into the page... crap this is the ifram biz again hmm.. oh well.. will try that later - so in theory each time the app is open.. it should pull the web_ressource and therefore get the latest content script. This would be a dev hack and shouldn't go in the production manifest
+```javascript
+// in manifest.json 
+"content_scripts": [
+  {
+    "matches":["http://localhost:3000/*"],
+    "js":["contentScriptDevInjector.js"]
+  }
+],
+
+"web_accessible_resources": [
+    ...,
+    "contentscript.html",
+],
+
+//contentscript.html - not sure yet if contentscript.bundle.js would be available like this but i think this shoudl work...
+<script src="http://localhost:3000/contentscript.bundle.js"></script>
+
+// contentScriptDevInjector.js
+var iframe  = document.createElement ('iframe');
+iframe.src  = chrome.extension.getURL ('contentscript.html');
+document.body.appendChild (iframe);
+
+```
+Anyway long story short for now when anything under contentscript/ is modified the app needs to be manually reloaded in chrome via the extension manager page.
