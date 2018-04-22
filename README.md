@@ -84,7 +84,7 @@ TODO:
 - <s>add write-file-webpack-plugin -> write to a dev/temp folder </s>
 - <s>enable reload of chrome app extension</s>
 - remove obsolete files
-- <s> fully integrate contentScript <s>
+- <s> fully integrate contentScript </s>
 - fully integrate option 
   
 
@@ -180,7 +180,7 @@ In dev mode, when **contentscript** is update - the entire chrome app needs to b
 A solutions:
   -  inject it within the iframe, but it looked very ugly to me.
   - chrome.runtime.reload() ... this needs further investigation to avoid reload loops in dev mode...
-  - use web_accessible_resources and change ["contentscript.bundle.js"] in manifest.json to some kind of contentScriptDevInjector.js script that would inject an html web ressource into the page... crap this is the ifram biz again hmm.. oh well.. will try that later - so in theory each time the app is open.. it should pull the web_ressource and therefore get the latest content script. This would be a dev hack and shouldn't go in the production manifest
+  - use web_accessible_resources and change ["contentscript.bundle.js"] in manifest.json to some kind of contentScriptDevInjector.js script (to be placed under public/) that would inject an html web ressource into the page... crap this is the ifram biz again hmm.. oh well.. will try that later - so in theory each time the app is open.. it should pull the web_ressource and therefore get the latest content script. This would be a dev hack and shouldn't go in the production manifest
 ```javascript
 // in manifest.json 
 "content_scripts": [

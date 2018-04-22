@@ -10,7 +10,7 @@ GCWindows.getLastFocused = async (populate=false) => {
   })
   return w
 }
-GCWindows.getCurrent = async (populate=false) => {
+GCWindows.getCurrent = async (populate = false) => {
  let w = await new Promise((resolve) => {
    return chrome.windows.getCurrent({populate: populate}, t => resolve(t))
   })

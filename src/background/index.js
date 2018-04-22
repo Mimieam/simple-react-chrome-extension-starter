@@ -6,7 +6,7 @@ import {
 } from './helpers'
 
 import { ChromeRPC } from '../utils'
-import { contextMenuObject, onClickContextMenuHandler } from "./contextMenu";
+import { contextMenuObject, onClickContextMenuHandler } from './contextMenu';
 
 import { WSM } from './WorkspaceManager';
 
