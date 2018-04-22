@@ -1,4 +1,4 @@
 
-import { devOnlyReload } from "./Injector";
+import { devOnlyReload } from './Injector';
 
 devOnlyReload()
