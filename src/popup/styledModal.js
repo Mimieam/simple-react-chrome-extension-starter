@@ -57,7 +57,6 @@ class StyledModal extends Component {
     this.setState({ open: false });
   };
 
-
   render() {
     const { classes } = this.props;
 

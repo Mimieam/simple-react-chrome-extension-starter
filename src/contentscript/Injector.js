@@ -2,6 +2,9 @@
 
 // console.log('Execute content script 9')
 // console.log(chrome.runtime.id)
+console.log('hello?????')
+alert('hello?????')
+
 
 const extUrl = `chrome-extension://${ chrome.runtime.id }/popup.html`
 // console.log(extUrl) 
@@ -16,9 +19,9 @@ let devModeContent = `
   or navigate to <h3> ${extUrl} </h3>
 </div>  
 `
+
 console.log(devModeContent)
 document.body.innerHTML = devModeContent
-
 export const devOnlyReload = () => {
   setTimeout(async () => {
   // await reloadContentScript()

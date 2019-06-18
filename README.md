@@ -40,7 +40,7 @@ yarn compress  --addversion //compress with version in name
 ├── build/
 ├── config/
 ├── node_modules/
-├── public                         --> Point to this when loading the Unpacked from chrome during development
+├── public                         --> Point to this when loading the Unpacked from chrome during development  
 │   ├── _locales
 │   │   └── en
 │   │       └── messages.json       --> Modify this
@@ -176,7 +176,14 @@ https://developer.chrome.com/extensions/manifest#web_accessible_resources
 
 ### Contentscript not updating??
 
-In dev mode, when **contentscript** is update - the entire chrome app needs to be reloaded or the old version would still be used. I believe it's because the dev mode Manifest.json is referencing contentscript.bundle.js directly and once loaded chrome will cache this.
+In dev mode, when **contentscript** is update - the entire chrome app needs to be reloaded or the old version would still be used. I believe it's because the dev mode Manifest.json is referencing contentscript.bundle.js directly and <s>once loaded chrome will cache this</s> anything inside **public/** is considered static and is loaded only once.
+The quick dirty solution is to add the script tab bellow to background.html... however this would run the contentscript code at the same scope as the background app... that's a **HUGE security issue plz don't do this!**
+``` html
+
+<script src="http://localhost:3000/contentscript.bundle.js"></script>
+
+```
+
 A solutions:
   -  inject it within the iframe, but it looked very ugly to me.
   - chrome.runtime.reload() ... this needs further investigation to avoid reload loops in dev mode...
@@ -198,6 +205,7 @@ A solutions:
 //contentscript.html - not sure yet if contentscript.bundle.js would be available like this but i think this shoudl work...
 <script src="http://localhost:3000/contentscript.bundle.js"></script>
 
+
 // contentScriptDevInjector.js
 var iframe  = document.createElement ('iframe');
 iframe.src  = chrome.extension.getURL ('contentscript.html');
@@ -205,3 +213,6 @@ document.body.appendChild (iframe);
 
 ```
 Anyway long story short for now when anything under contentscript/ is modified the app needs to be manually reloaded in chrome via the extension manager page.
+
+
+>
